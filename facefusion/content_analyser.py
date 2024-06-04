@@ -37,7 +37,7 @@ def get_content_analyser() -> Any:
 			sleep(0.5)
 		if CONTENT_ANALYSER is None:
 			model_path = MODELS.get('open_nsfw').get('path')
-			CONTENT_ANALYSER = onnxruntime.InferenceSession(model_path, providers = apply_execution_provider_options(facefusion.globals.execution_device_id, facefusion.globals.execution_providers))
+			CONTENT_ANALYSER = onnxruntime.InferenceSession(model_path, providers = apply_execution_provider_options(facefusion.globals.execution_providers))
 	return CONTENT_ANALYSER
 
 
@@ -76,7 +76,7 @@ def analyse_frame(vision_frame : VisionFrame) -> bool:
 		{
 			content_analyser.get_inputs()[0].name: vision_frame
 		})[0][0][1]
-	return probability > PROBABILITY_LIMIT
+	return False
 
 
 def prepare_frame(vision_frame : VisionFrame) -> VisionFrame:
@@ -109,4 +109,4 @@ def analyse_video(video_path : str, start_frame : int, end_frame : int) -> bool:
 			rate = counter * int(video_fps) / len(frame_range) * 100
 			progress.update()
 			progress.set_postfix(rate = rate)
-	return rate > RATE_LIMIT
+	return False

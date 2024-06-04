@@ -1,9 +1,10 @@
-from facefusion.common_helper import is_linux, is_macos
+import platform
+
 from facefusion.normalizer import normalize_output_path, normalize_padding, normalize_fps
 
 
 def test_normalize_output_path() -> None:
-	if is_linux() or is_macos():
+	if platform.system().lower() == 'linux' or platform.system().lower() == 'darwin':
 		assert normalize_output_path('.assets/examples/target-240p.mp4', '.assets/examples/target-240p.mp4') == '.assets/examples/target-240p.mp4'
 		assert normalize_output_path('.assets/examples/target-240p.mp4', '.assets/examples').startswith('.assets/examples/target-240p')
 		assert normalize_output_path('.assets/examples/target-240p.mp4', '.assets/examples').endswith('.mp4')
